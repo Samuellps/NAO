@@ -41,7 +41,7 @@ def consultar_chatgpt(texto):
     """
 
     #inicia o cliente da API através da chave de api
-    client = OpenAI(api_key="CHAVE_API")
+    client = OpenAI(api_key="CHAVE_API!")
 
     #armazena o texto entregue como parâmetro como contéudo enviado pelo usuário
     historico.append({"role": "user" , "content": texto})
