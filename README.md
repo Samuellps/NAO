@@ -21,7 +21,7 @@ JSON
 
 Fluxo de Dados:
 
-1 - O áudio é gravado pelo microfone do NAO usando a API do NAOqi.\n
+1 - O áudio é gravado pelo microfone do NAO usando a API do NAOqi.
 2 - Esse áudio é processado por uma biblioteca de transcrição (s2t) no Python 3.12.
 3 - A transcrição é enviada para a API GPT, que retorna uma resposta.
 4 - A resposta é enviada de volta ao Python 2.7 para que o NAO possa falar.
