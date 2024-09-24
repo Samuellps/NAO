@@ -10,14 +10,19 @@ O fluxo é feito usando Python 2.7 (para o controle do NAO) e Python 3.12 (para 
 Pré-requisitos:
 
 Python 2.7 (para controle do NAO)
+
 Python 3.12 (para interação com a API do GPT)
+
 NAO SDK e NAOqi
 
 Bibliotecas:
 
 socket
+
 Google Cloud Speech API
+
 OpenAI
+
 JSON
 
 Fluxo de Dados:
