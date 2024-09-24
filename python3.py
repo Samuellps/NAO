@@ -4,7 +4,7 @@ import socket
 
 
 #Define o comportamento do chat e armazena as informações da conversa
-historico = [{"role": "system", "content": "Você é um robô chamado NAO e seu objetivo é interagir com pessoas importantes em eventos sobre tecnologia"}]
+historico = [{"role": "system", "content": "Você é um robô chamado NAO. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso "}]
 
 
 def llm_server():
