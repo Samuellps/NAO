@@ -4,7 +4,7 @@ import socket
 
 
 #Define o comportamento do chat e armazena as informações da conversa
-historico = [{"role": "system", "content": "Você é um robô chamado NAO. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso "}]
+historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas.Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso "}]
 
 
 def llm_server():
@@ -13,7 +13,7 @@ def llm_server():
 
     #cria e configura o servidor socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('0.0.0.0', 6000))  # Abre o servidor na porta 6000
+    server_socket.bind(('0.0.0.0', 6002))  # Abre o servidor na porta 6000
     server_socket.listen(1)
     print("Servidor aguardando conexões")
 
@@ -70,7 +70,7 @@ def consultar_chatgpt(texto):
     """
 
     #inicia o cliente da API através da chave de api
-    client = OpenAI(api_key="CHAVE_API!")
+    client = OpenAI(api_key="APIKey")
 
 
     #armazena o texto entregue como parâmetro como contéudo enviado pelo usuário

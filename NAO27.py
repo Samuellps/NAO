@@ -9,7 +9,7 @@ import codecs
 #criar um socket cliente
 def nao_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('127.0.0.1', 6000))  # Conecta ao servidor Python 3
+    client_socket.connect(('127.0.0.1', 6002))  # Conecta ao servidor Python 3
     
     var_ativacao = "ok" #variavel de ativacao
     client_socket.send(var_ativacao.encode()) #ativa o python 3
@@ -39,10 +39,14 @@ channels = [0, 0, 1, 0]  # Usando o microfone frontal
 face_detection.subscribe("Test_face", 500, 0.0)
 memValue = "FaceDetected"
 
+#Parar microfone
+audio_recorder.stopMicrophonesRecording()
+
+
 #Loop para ativar chatbot do NAO
 n = True
 while n == True:
-
+    
     #Loop para reconhecer rosto
     i=True
     while i == True:
@@ -55,7 +59,7 @@ while n == True:
             
 
     #Aviso do NAO de reconhecimento
-    tts.say("Pode falar")
+    tts.say("Estou te ouvindo")
     #time.sleep(2)
 
     # Silenciar o autofalante (definir volume para 0)
@@ -95,14 +99,15 @@ while n == True:
     
     # Abrir o arquivo JSON e carregar o conteúdo em uma variável Python (usando codecs para UTF-8)
     try:
-        time.sleep(1)
+        time.sleep(4)
         with codecs.open(file_path, 'r', 'utf-8') as file:
             json_data = json.load(file)
         response = json_data["message"].encode('utf-8')
         tts.say(response)
     except:
-        tts.say("Repete a pergunta.")
+        tts.say("Não Entendi")
 
-    s_n = raw_input("encerrar chat?")
-    if s_n == "s":
+    
+    if response.lower() == "tchau":
         n = False
+    
