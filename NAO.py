@@ -14,7 +14,7 @@ while True:
     print(response)
 
     #limpa o histórico de conversa e fecha a conexão
-    if response == "tchau":
+    if response == "tchau": #condição de parada
         python3.limpar_historico
         python3.socket.close()   
         break
