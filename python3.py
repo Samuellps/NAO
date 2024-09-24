@@ -1,10 +1,15 @@
 import speech_recognition as sr
 from openai import OpenAI
 import socket
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 #Define o comportamento do chat e armazena as informações da conversa
-historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas.Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso "}]
+historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas.Se a pergunta for relacionada ao CEIA fale sobre o Centro de Excelência em Inteligência Artificial da UFG e se for relacionado ao BIA fale sobre o Bacharelado em Inteligência Artificial da UFG. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso. "}]
 
 
 def llm_server():
@@ -57,6 +62,8 @@ def audio_to_text(audio_file):
     #tratamentos de erros
     except sr.UnknownValueError:
         print("Não foi possível reconhecer o áudio")
+        return "Fale: Eu não entendi"
+    
     except sr.RequestError as e:
         print("Erro do serviço de reconhecimento de fala; {0}".format(e))
 
@@ -70,7 +77,7 @@ def consultar_chatgpt(texto):
     """
 
     #inicia o cliente da API através da chave de api
-    client = OpenAI(api_key="APIKey")
+    client = OpenAI(api_key=OPENAI_API_KEY)
 
 
     #armazena o texto entregue como parâmetro como contéudo enviado pelo usuário

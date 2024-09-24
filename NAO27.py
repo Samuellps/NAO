@@ -99,7 +99,7 @@ while n == True:
     
     # Abrir o arquivo JSON e carregar o conteúdo em uma variável Python (usando codecs para UTF-8)
     try:
-        time.sleep(4)
+        time.sleep(6)
         with codecs.open(file_path, 'r', 'utf-8') as file:
             json_data = json.load(file)
         response = json_data["message"].encode('utf-8')
