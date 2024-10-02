@@ -19,9 +19,9 @@ def nao_client():
     return response
 
 # Conectar ao NAO
-ip = "192.168.1.102"
+ip = "10.62.14.102"
 port = 9559
-vol_NAO = 80
+vol_NAO = 100
 
 #Criacao de Proxy para os modulos
 audio_recorder = ALProxy("ALAudioRecorder", ip, port)
