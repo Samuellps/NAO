@@ -1,0 +1,6 @@
+Pergunta: Bom dia como você está
+Resposta: Bom dia! Estou aqui para ajudar você. Como posso ajudar?
+========================================
+Pergunta: tchau
+Resposta: tchau
+========================================

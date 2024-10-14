@@ -1,0 +1,6 @@
+Pergunta: Fale: Eu não entendi
+Resposta: Desculpe por qualquer confusão. Por favor, me diga o que você gostaria que eu explicasse.
+========================================
+Pergunta: tchau
+Resposta: tchau
+========================================
