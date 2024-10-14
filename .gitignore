@@ -1,1 +1,9 @@
 .env
+
+__pycache__/
+
+audio.wav
+
+data.json
+
+Conversas/

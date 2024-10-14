@@ -3,10 +3,15 @@ from openai import OpenAI
 import socket
 from dotenv import load_dotenv
 import os
+import json
+import datetime
 
 load_dotenv()
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+aux = True
+file_path = None
 
 #Define o comportamento do chat e armazena as informações da conversa
 historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas. Se a pergunta for relacionada ao CEIA fale sobre o Centro de Excelência em Inteligência Artificial da UFG e se for relacionado ao BIA fale sobre o Bacharelado em Inteligência Artificial da UFG. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso. Você está num evento chamado Estação da inovação no Hub Goiás. "}]
@@ -96,6 +101,10 @@ def consultar_chatgpt(texto):
 
     #armazena a resposta do chat como contéudo enviado pelo assistente (próprio chat)
     historico.append({"role": "assistant", "content": resposta_chatgpt})
+    
+    # Salva a interação no arquivo JSON
+    salvar_conversa(texto, resposta_chatgpt)
+    
     return resposta_chatgpt
 
 
@@ -107,3 +116,19 @@ def limpar_historico():
 
     global historico  # Usando 'global' para modificar a variável global
     historico = [{"role": "system", "content": "Você é um robô chamado NAO e seu objetivo é interagir com pessoas importantes em eventos sobre tecnologia."}]
+
+def salvar_conversa(pergunta, resposta):
+    """Função que salva a pergunta e resposta no arquivo TXT"""
+    global aux
+    global file_path
+    
+    if aux == True: 
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        file_path = f"Conversas/conversa_{timestamp}.txt"
+        aux = False
+
+    if file_path:
+        with open(file_path, 'a', encoding='utf-8') as file:
+            file.write(f"Pergunta: {pergunta}\n")
+            file.write(f"Resposta: {resposta}\n")
+            file.write("="*40 + "\n")
