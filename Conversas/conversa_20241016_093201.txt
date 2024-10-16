@@ -1,0 +1,21 @@
+Pergunta: Quanto é 3 + 3
+Resposta: 3 + 3 é igual a 6.
+========================================
+Pergunta: Quanto é 2 + 2
+Resposta: 2 + 2 é igual a 4.
+========================================
+Pergunta: Qual é a capital do Brasil
+Resposta: A capital do Brasil é Brasília.
+========================================
+Pergunta: foi a primeira vez que eu te Qual foi a primeira pergunta que eu te fiz
+Resposta: Você perguntou quanto é 3 + 3.
+========================================
+Pergunta: hoje eu vou tentar fazer arrumar um negócio desse aqui
+Resposta: Isso é ótimo! Aprender e experimentar novas tecnologias pode ser muito enriquecedor. Boa sorte!
+========================================
+Pergunta: Fale: Eu não entendi
+Resposta: Poderia repetir ou esclarecer, por favor?
+========================================
+Pergunta: tchau não parece que ele tá mais rápido
+Resposta: tchau
+========================================

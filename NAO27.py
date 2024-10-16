@@ -6,14 +6,14 @@ import socket
 import json
 import codecs
 
-#criar um socket cliente
+# Criar um socket cliente
 def nao_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect(('127.0.0.1', 6002))  # Conecta ao servidor Python 3
     
-    var_ativacao = "ok" #variavel de ativacao
-    client_socket.send(var_ativacao.encode()) #ativa o python 3
-    response = client_socket.recv(1024).decode('utf-8') #retorna a resposta do python 3
+    var_ativacao = "ok"  # Variável de ativação
+    client_socket.send(var_ativacao.encode())  # Ativa o Python 3
+    response = client_socket.recv(1024).decode('utf-8')  # Retorna a resposta do Python 3
 
     client_socket.close()
     return response
@@ -23,77 +23,74 @@ ip = "192.168.1.103"
 port = 9559
 vol_NAO = 50
 
-#Criacao de Proxy para os modulos
+# Criação de Proxy para os módulos
 audio_recorder = ALProxy("ALAudioRecorder", ip, port)
 face_detection = ALProxy("ALFaceDetection", ip, port)
 memoryProxy = ALProxy("ALMemory", ip, port)
 tts = ALProxy("ALTextToSpeech", ip, port)
 audio_proxy = ALProxy("ALAudioDevice", ip, port)
 
-
-# Configurar o local onde o arquivo de audio sera salvo no robo
+# Configurar o local onde o arquivo de áudio será salvo no robô
 audio_file = "/home/nao/audio.wav"
 channels = [0, 0, 1, 0]  # Usando o microfone frontal
 
-#Identificar rosto
+# Identificar rosto
 face_detection.subscribe("Test_face", 500, 0.0)
 memValue = "FaceDetected"
 
-#Parar microfone
+# Parar microfone
 audio_recorder.stopMicrophonesRecording()
 
-
-#Loop para ativar chatbot do NAO
+# Loop para ativar chatbot do NAO
 n = True
-while n == True:
-    
-    #Loop para reconhecer rosto
-    i=True
-    while i == True:
-        for i in range(0,20):
-            time.sleep(0.5)
-            val = memoryProxy.getData(memValue, 0)
-            if(val and isinstance(val, list) and len(val) == 2):
-                print "Rosto detectado"
-                i = False
-            
+while n:
+    # Loop para reconhecer rosto
+    rosto_detectado = False
+    while not rosto_detectado:
+        # Verifica se houve alguma detecção de rosto na memória
+        face_data = memoryProxy.getData(memValue)
+        
+        # Verifica se algum rosto foi detectado
+        if face_data and isinstance(face_data, list) and len(face_data) > 0:
+            print "Rosto detectado"
+            rosto_detectado = True
+        else:
+            print "Nenhum rosto detectado."
 
-    #Aviso do NAO de reconhecimento
+        time.sleep(0.5)
+
+    # Aviso do NAO de reconhecimento
     tts.say("Estou te ouvindo")
-    #time.sleep(2)
 
     # Silenciar o autofalante (definir volume para 0)
     audio_proxy.setOutputVolume(0)
 
-    # Comecar a gravar
+    # Começar a gravar
     audio_recorder.startMicrophonesRecording(audio_file, "wav", 16000, channels)
 
-    #aviso de gravacao
+    # Aviso de gravação
     print "Gravando."
 
-    # Teste de decibeis
-    for i in range(0,8):
+    # Teste de decibéis
+    for i in range(0, 8):
         time.sleep(0.5)
         som = audio_proxy.getFrontMicEnergy()
         print som
 
-    # Gravar por um tempo determinado (ex: 6 segundos)
-    #time.sleep(4)
-
-    # Parar a gravacao
+    # Parar a gravação
     audio_recorder.stopMicrophonesRecording()
 
-    # Transferir o arquivo para o seu PC e, em seguida, envia-lo para uma API de transcricao
+    # Transferir o arquivo para o seu PC e, em seguida, enviá-lo para uma API de transcrição
     os.system("scp nao@{0}:{1} ./".format(ip, audio_file))
     time.sleep(0.5)
 
     # Para restaurar o volume (ajustar para 100, por exemplo)
     audio_proxy.setOutputVolume(vol_NAO)
 
-    #Ativa o python 3
+    # Ativa o Python 3
     var_resposta = nao_client()
     
-    #Retornar
+    # Retornar
     print "Retornar mensagem do NAO"
     file_path = 'data.json'
     
@@ -107,7 +104,5 @@ while n == True:
     except:
         tts.say("Não Entendi")
 
-    
     if response.lower() == "tchau":
         n = False
-    
