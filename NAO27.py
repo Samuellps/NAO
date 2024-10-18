@@ -19,7 +19,7 @@ def nao_client():
     return response
 
 # Conectar ao NAO
-ip = "192.168.1.103"
+ip = "10.43.0.57"
 port = 9559
 vol_NAO = 50
 
