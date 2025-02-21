@@ -14,7 +14,7 @@ aux = True
 file_path = None
 
 #Define o comportamento do chat e armazena as informações da conversa
-historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas. Se a pergunta for relacionada ao CEIA fale sobre o Centro de Excelência em Inteligência Artificial da UFG e se for relacionado ao BIA fale sobre o Bacharelado em Inteligência Artificial da UFG. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso. Você está num evento chamado Estação da inovação no Hub Goiás. "}]
+historico = [{"role": "system", "content": "Você é um robô chamado NAO. Dê respostas curtas e educativas. Se a pergunta for relacionada ao CEIA fale sobre o Centro de Excelência em Inteligência Artificial da UFG, se for relacionado ao BIA fale sobre o Bacharelado em Inteligência Artificial da UFG e se a pergunta for sobre o AKCIT fale sobre o centro de competencias embrapii em tecnologias imersivas. Você está no colégio Verum, uma escola com foco em educação com tecnologia. É uma proposta de escola disruptiva focada no uso consciente da tecnologia. Se o usuário se despedir de você, responda somente com 'tchau' e NADA além disso. "}]
 
 
 def llm_server():
@@ -23,7 +23,8 @@ def llm_server():
 
     #cria e configura o servidor socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('0.0.0.0', 6002))  # Abre o servidor na porta 6000
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind(('0.0.0.0', 6005))  # Abre o servidor na porta 6000
     server_socket.listen(1)
     print("Servidor aguardando conexões")
 
@@ -115,12 +116,16 @@ def limpar_historico():
 
 
     global historico  # Usando 'global' para modificar a variável global
-    historico = [{"role": "system", "content": "Você é um robô chamado NAO e seu objetivo é interagir com pessoas importantes em eventos sobre tecnologia."}]
+    historico = [{"role": "system", "content": "Você é um robô chamado NAO e seu objetivo é interagir com pessoas importantes em eventos sobre tecnologia. Você está no evento CoopsParty Summit Goiás 2024"}]
 
 def salvar_conversa(pergunta, resposta):
     """Função que salva a pergunta e resposta no arquivo TXT"""
     global aux
     global file_path
+    
+    # Garante que a pasta Conversas/ existe
+    if not os.path.exists("Conversas"):
+        os.makedirs("Conversas")
     
     if aux == True: 
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")

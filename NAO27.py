@@ -9,8 +9,22 @@ import codecs
 # Criar um socket cliente
 def nao_client():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('127.0.0.1', 6002))  # Conecta ao servidor Python 3
-    
+
+    # 🔹 Aguarda até 10 segundos pelo servidor
+    server_ready = False
+    for _ in range(20):  # Tenta conectar por até 10 segundos
+        try:
+            client_socket.connect(('127.0.0.1', 6005))  # Conecta ao servidor Python 3
+            server_ready = True
+            break
+        except socket.error:
+            print("Aguardando servidor Python 3...")
+            time.sleep(0.5)
+
+    if not server_ready:
+        print("Erro: Não foi possível conectar ao servidor Python 3!")
+        return None
+
     var_ativacao = "ok"  # Variável de ativação
     client_socket.send(var_ativacao.encode())  # Ativa o Python 3
     response = client_socket.recv(1024).decode('utf-8')  # Retorna a resposta do Python 3
@@ -19,10 +33,9 @@ def nao_client():
     return response
 
 # Conectar ao NAO
-ip = "192.168.1.103"
+ip = "192.168.59.225"
 port = 9559
-vol_NAO = 50
-
+vol_NAO = 60
 # Criação de Proxy para os módulos
 audio_recorder = ALProxy("ALAudioRecorder", ip, port)
 face_detection = ALProxy("ALFaceDetection", ip, port)
